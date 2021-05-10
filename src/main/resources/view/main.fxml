@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="480.0" prefWidth="653.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.sapteh.controller.ControllerMain">
+   <children>
+      <TabPane prefHeight="705.0" prefWidth="872.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Карта сотрудника">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="619.0" prefWidth="872.0">
+                     <children>
+                        <TableView fx:id="tableWorker" layoutX="-1.0" layoutY="50.0" prefHeight="401.0" prefWidth="340.0">
+                          <columns>
+                            <TableColumn fx:id="columnLastName" prefWidth="120.0" text="Фамилия" />
+                            <TableColumn fx:id="columnFirstName" prefWidth="97.0" text="Имя" />
+                              <TableColumn fx:id="columnPatronymic" prefWidth="122.0" text="Отчество" />
+                          </columns>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </TableView>
+                        <TextField fx:id="txtSearch" layoutX="56.0" layoutY="14.0" />
+                        <Text layoutX="11.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Поиск:">
+                           <font>
+                              <Font name="Constantia" size="14.0" />
+                           </font>
+                        </Text>
+                        <Line endX="380.0" layoutX="492.0" layoutY="50.0" startX="-149.0" />
+                        <Text layoutX="557.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Карта сотрудника">
+                           <font>
+                              <Font name="Arial Black" size="18.0" />
+                           </font>
+                        </Text>
+                        <Line endX="-125.5" endY="480.0" layoutX="468.0" layoutY="126.0" startX="-125.5" startY="-76.5" />
+                        <Line endX="58.0" endY="516.5" layoutX="569.0" layoutY="88.0" startX="58.0" startY="-37.5" />
+                        <Line endX="416.0" endY="153.0" layoutX="456.0" layoutY="452.0" startX="-113.0" startY="154.5" />
+                        <Text layoutX="420.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Контактная информация">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="14.0" />
+                           </font>
+                        </Text>
+                        <Line endX="140.0" layoutX="732.0" layoutY="205.0" startX="-104.5" />
+                        <Text layoutX="702.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Должность">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="14.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="682.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Паспортные данные">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="14.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="txtLastName" layoutX="444.0" layoutY="110.0" />
+                        <TextField fx:id="txtFirstName" layoutX="444.0" layoutY="145.0" />
+                        <TextField fx:id="txtPatronymic" layoutX="444.0" layoutY="180.0" />
+                        <TextField fx:id="txtBirthday" layoutX="444.0" layoutY="218.0" />
+                        <TextField fx:id="txtDateEmployment" layoutX="444.0" layoutY="257.0" />
+                        <TextArea fx:id="txtAddress" layoutX="444.0" layoutY="291.0" prefHeight="100.0" prefWidth="168.0" />
+                        <ImageView fx:id="imagePhoto" fitHeight="187.0" fitWidth="174.0" layoutX="357.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button fx:id="buttonPath" layoutX="547.0" layoutY="439.0" mnemonicParsing="false" text="Выбрать" />
+                        <Button fx:id="updateWorker" layoutX="510.0" layoutY="618.0" mnemonicParsing="false" onAction="#updateWorker" text="Сохранить" />
+                        <Text layoutX="386.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Фамилия" />
+                        <Text layoutX="400.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Имя" />
+                        <Text layoutX="385.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Отчество" />
+                        <Text layoutX="358.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Дата рождения" />
+                        <Text layoutX="358.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Дата принятия на работу" wrappingWidth="83.30078125" />
+                        <Text layoutX="400.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Адрес" />
+                        <TextField fx:id="txtTitlePost" layoutX="716.0" layoutY="98.0" />
+                        <TextField fx:id="txtSalary" layoutX="716.0" layoutY="137.0" />
+                        <Text layoutX="629.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Наименование">
+                           <font>
+                              <Font name="Papyrus" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="659.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Оклад">
+                           <font>
+                              <Font name="Papyrus" size="12.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="txtSeries" layoutX="716.0" layoutY="257.0" />
+                        <TextField fx:id="txtNumbers" layoutX="716.0" layoutY="291.0" />
+                        <TextArea fx:id="txtWhomIssued" layoutX="693.0" layoutY="324.0" prefHeight="88.0" prefWidth="174.0" />
+                        <TextArea fx:id="txtRegPlace" layoutX="695.0" layoutY="418.0" prefHeight="92.0" prefWidth="171.0" />
+                        <TextField fx:id="txtDateIssue" layoutX="716.0" layoutY="523.0" />
+                        <TextField fx:id="txtDivisionCode" layoutX="716.0" layoutY="561.0" />
+                        <Text layoutX="658.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Серия" />
+                        <Text layoutX="658.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Номер" />
+                        <Text layoutX="629.0" layoutY="364.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Кем выдан" />
+                        <Text layoutX="632.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Прописка" />
+                        <Text layoutX="634.0" layoutY="540.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Дата выдачи" />
+                        <Text layoutX="628.0" layoutY="565.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Код подразделения" wrappingWidth="85.240234375" />
+                        <Button fx:id="buttonOpenCreateWorker" layoutX="41.0" layoutY="475.0" mnemonicParsing="false" text="Добавить сотрудника" />
+                        <Button fx:id="deleteWorker" layoutX="606.0" layoutY="618.0" mnemonicParsing="false" text="Удалить" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text=" Табель сотрудника">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="676.0" prefWidth="861.0">
+                     <children>
+                        <TableView fx:id="tableTimesheetWorker" layoutX="14.0" layoutY="60.0" prefHeight="288.0" prefWidth="412.0">
+                          <columns>
+                            <TableColumn fx:id="columnDateStart" prefWidth="116.0" text="Период с:" />
+                            <TableColumn fx:id="columnDateEnd" prefWidth="92.0" text="Период по:" />
+                              <TableColumn fx:id="columnPaymentCode" prefWidth="114.0" text="Код вида оплаты:" />
+                              <TableColumn fx:id="columnCorAccount" prefWidth="89.0" text="Коресп. счёт" />
+                          </columns>
+                        </TableView>
+                        <Line endX="16.000640869140625" endY="835.0" layoutX="459.0" layoutY="-161.0" startX="15.999542236328125" startY="533.9267578125" AnchorPane.bottomAnchor="1.29290771484375" AnchorPane.leftAnchor="474.29243564605713" AnchorPane.rightAnchor="396.29225158691406" AnchorPane.topAnchor="372.21966552734375" />
+                        <Text layoutX="584.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ежедневная отметка сотрудника" AnchorPane.bottomAnchor="231.666015625" AnchorPane.leftAnchor="584.0" AnchorPane.rightAnchor="26.8193359375" AnchorPane.topAnchor="424.591796875">
+                           <font>
+                              <Font name="Arial Black" size="14.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="txtNumberDay" layoutX="697.0" layoutY="471.0" />
+                        <TextField fx:id="txtQuantityHours" layoutX="697.0" layoutY="512.0" />
+                        <ComboBox fx:id="comboStatus" layoutX="696.0" layoutY="551.0" prefWidth="150.0" />
+                        <ComboBox fx:id="comboTimesheetWorker" layoutX="696.0" layoutY="593.0" prefWidth="150.0" />
+                        <Text layoutX="646.0" layoutY="488.0" strokeType="OUTSIDE" strokeWidth="0.0" text="№ дня:" />
+                        <Text layoutX="584.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Количество часов:" />
+                        <Text layoutX="646.0" layoutY="568.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Статус:" />
+                        <Text layoutX="646.0" layoutY="610.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Табель:" />
+                        <TableView fx:id="tableMarks" layoutX="597.0" layoutY="60.0" prefHeight="276.0" prefWidth="272.0">
+                          <columns>
+                            <TableColumn fx:id="columnNumberDay" prefWidth="83.0" text="№ дня" />
+                            <TableColumn fx:id="columnQuantityHours" prefWidth="99.0" text="Кол-во часов" />
+                              <TableColumn fx:id="columnStatus" prefWidth="89.0" text="Статус" />
+                          </columns>
+                        </TableView>
+                        <ComboBox fx:id="comboWorkers" layoutX="187.0" layoutY="22.0" prefWidth="150.0" />
+                        <Text layoutX="32.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите сотрудника:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Button fx:id="buttonSaveMarks" layoutX="659.0" layoutY="637.0" mnemonicParsing="false" text="Сохранить" />
+                        <ComboBox layoutX="46.0" layoutY="459.0" prefWidth="150.0" />
+                        <ComboBox layoutX="256.0" layoutY="459.0" prefWidth="150.0" />
+                        <ComboBox layoutX="46.0" layoutY="539.0" prefWidth="150.0" />
+                        <ComboBox layoutX="256.0" layoutY="539.0" prefWidth="150.0" />
+                        <Text layoutX="104.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Добавление табеля сотрудника">
+                           <font>
+                              <Font name="Arial Black" size="14.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="46.0" layoutY="449.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите период табеля:" />
+                        <Text layoutX="262.0" layoutY="449.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите сотрудника" />
+                        <Text layoutX="46.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите код вида оплаты" />
+                        <Text layoutX="262.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите кореспондентский счет" />
+                        <Line endX="398.0" layoutX="474.0" layoutY="372.0" startX="-474.0" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="График отпусков">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ComboBox fx:id="comboTimetable" layoutX="113.0" layoutY="28.0" prefWidth="150.0" />
+                        <TableView fx:id="tableListWorker" layoutX="11.0" layoutY="78.0" prefHeight="588.0" prefWidth="365.0">
+                          <columns>
+                            <TableColumn fx:id="columnLastNameW" prefWidth="127.0" text="Фамилия" />
+                            <TableColumn fx:id="columnFirstNameW" prefWidth="113.0" text="Имя" />
+                              <TableColumn fx:id="columnPatronymicW" prefWidth="124.0" text="Отчество" />
+                          </columns>
+                        </TableView>
+                        <Text layoutX="50.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Периоды:">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="12.0" />
+                           </font>
+                        </Text>
+                        <Line endX="299.0" layoutX="579.0" layoutY="53.0" startX="-100.0" />
+                        <Line endX="-15.5" endY="537.0" layoutX="494.0" layoutY="139.0" startX="-15.5" startY="-85.5" />
+                        <Text layoutX="555.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Регистрация периода отпуска">
+                           <font>
+                              <Font name="Arial Black" size="18.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="numberOrder" layoutX="670.0" layoutY="243.0" />
+                        <Text layoutX="576.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Дата начала:" />
+                        <Text layoutX="581.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Дата конца:" />
+                        <DatePicker fx:id="dateStartHoliday" layoutX="663.0" layoutY="148.0" />
+                        <DatePicker fx:id="dateEndHoliday" layoutX="663.0" layoutY="196.0" />
+                        <Text layoutX="576.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Номер приказа:" />
+                        <Line endX="302.0" layoutX="576.0" layoutY="338.0" startX="-97.0" />
+                        <Text layoutX="588.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Новая запись в график">
+                           <font>
+                              <Font name="Arial Black" size="18.0" />
+                           </font>
+                        </Text>
+                        <ComboBox fx:id="comboTimetableReg" layoutX="613.0" layoutY="415.0" prefWidth="150.0" />
+                        <ComboBox fx:id="comboWorkerHoliday" layoutX="613.0" layoutY="473.0" prefWidth="150.0" />
+                        <Text layoutX="544.0" layoutY="432.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Период:" />
+                        <Text layoutX="536.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Сотрудник:" />
+                        <Button fx:id="saveTimetable" layoutX="644.0" layoutY="295.0" mnemonicParsing="false" text="Сохранить" />
+                        <Button fx:id="saveHoliday" layoutX="644.0" layoutY="550.0" mnemonicParsing="false" text="Сохранить" />
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Табель учёта рабочего времени">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="518.0" prefWidth="872.0" />
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

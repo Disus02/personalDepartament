@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.sapteh.controller.ControllerLogin">
+   <children>
+      <TextField fx:id="txtLogin" layoutX="202.0" layoutY="149.0" />
+      <PasswordField fx:id="txtPassword" layoutX="202.0" layoutY="188.0" />
+      <Button fx:id="buttonOpen" layoutX="293.0" layoutY="273.0" mnemonicParsing="false" text="Войти">
+         <font>
+            <Font name="Arial Black" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="buttonExit" layoutX="187.0" layoutY="273.0" mnemonicParsing="false" text="Выйти">
+         <font>
+            <Font name="Arial Black" size="14.0" />
+         </font>
+      </Button>
+      <Text layoutX="137.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Логин:" wrappingWidth="55.630859375">
+         <font>
+            <Font name="Microsoft YaHei" size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="137.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Пароль:">
+         <font>
+            <Font name="Microsoft YaHei" size="14.0" />
+         </font>
+      </Text>
+   </children>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+</AnchorPane>
