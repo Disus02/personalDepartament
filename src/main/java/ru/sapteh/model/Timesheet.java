@@ -25,4 +25,9 @@ public class Timesheet {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "division_id")
     private Division division;
+
+    @Override
+    public String toString() {
+        return dateStart + "-" +dateEnd;
+    }
 }

@@ -1,5 +1,8 @@
 package ru.sapteh.controller;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import com.mysql.cj.xdevapi.Client;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -19,10 +23,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import ru.sapteh.dao.Dao;
 import ru.sapteh.model.*;
-import ru.sapteh.service.TimetableService;
-import ru.sapteh.service.WorkerService;
+import ru.sapteh.service.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -174,9 +179,29 @@ public class ControllerMain {
     private Button saveTimetable;
     @FXML
     private Button saveHoliday;
+    @FXML
+    private ComboBox<Division> comboDivisionTimesheet;
 
     @FXML
-    void initialize(){
+    private TableView<Timesheet> tableTimesheet;
+
+    @FXML
+    private TableColumn<Timesheet,Integer> columnNumberDoc;
+
+    @FXML
+    private TableColumn<Timesheet, Date> columnDateCompilation;
+
+    @FXML
+    private TableColumn<Timesheet, Date> columnPeriodFrom;
+
+    @FXML
+    private TableColumn<Timesheet, Date> columnPeriodTo;
+
+    @FXML
+    private Button savePdfTimesheet;
+
+    @FXML
+    void initialize() throws IOException, DocumentException {
         getWorker();
         columnFirstName.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getFirstName()));
         columnLastName.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getLastName()));
@@ -210,13 +235,12 @@ public class ControllerMain {
         });
         initializeTableTimeSheetWorker();
         initializeTimetable();
+        initializeTimesheet();
+        buttonSaveMarks.setOnAction(event -> {
+            createMarks();
+        });
+        createTimesheetPdf();
     }
-
-    @FXML
-    void photoPath(ActionEvent event) {
-
-    }
-
     @FXML
     void updateWorker(ActionEvent event) {
 
@@ -292,10 +316,14 @@ public class ControllerMain {
     }
     private void initializeTableTimeSheetWorker(){
         ObservableList<Marks> marks=FXCollections.observableArrayList();
+        ObservableList<Status> statuses=FXCollections.observableArrayList();
         ObservableList<TimesheetWorker> timesheetWorkers=FXCollections.observableArrayList();
         ObservableList<Worker> workers=FXCollections.observableArrayList();
         SessionFactory factory=new Configuration().configure().buildSessionFactory();
         Dao<Worker,Integer> workerService=new WorkerService(factory);
+        Dao<Status,Integer> statusService=new StatusService(factory);
+        statuses.addAll(statusService.readByAll());
+        comboStatus.setItems(statuses);
         workers.addAll(workerService.readByAll());
         comboWorkers.setItems(workers);
         comboWorkers.valueProperty().addListener((obj,oldValue,newValue)->{
@@ -345,5 +373,97 @@ public class ControllerMain {
         Date date1 = format.parse(dateEndHoliday.getValue().toString().substring(0,10));
         timetable.setDateEnd(date1);
         timetableService.create(timetable);
+    }
+    private void createMarks(){
+        SessionFactory factory=new Configuration().configure().buildSessionFactory();
+        Dao<Marks,Integer> marksService=new MarksService(factory);
+        Marks marks=new Marks();
+        marks.setNumberDay(Integer.parseInt(txtNumberDay.getText()));
+        marks.setQuantityHours(Integer.parseInt(txtQuantityHours.getText()));
+        marks.setStatus(comboStatus.getValue());
+        marks.setTimesheetWorker(tableTimesheetWorker.getSelectionModel().getSelectedItem());
+        marksService.create(marks);
+        System.out.println(tableTimesheetWorker.getSelectionModel().getSelectedItem());
+    }
+    private void initializeTimesheet(){
+        SessionFactory factory=new Configuration().configure().buildSessionFactory();
+        ObservableList<Division> divisions=FXCollections.observableArrayList();
+        ObservableList<Timesheet> timeSheets=FXCollections.observableArrayList();
+        Dao<Division,Integer> divisionService=new DivisionService(factory);
+        divisions.addAll(divisionService.readByAll());
+        comboDivisionTimesheet.setItems(divisions);
+        comboDivisionTimesheet.valueProperty().addListener((obj,oldValue,newValue)->{
+            timeSheets.clear();
+            timeSheets.addAll(newValue.getTimesheet());
+            columnNumberDoc.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getNumberDoc()));
+            columnDateCompilation.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getDateCompilation()));
+            columnPeriodFrom.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getDateStart()));
+            columnPeriodTo.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getDateEnd()));
+            tableTimesheet.setItems(timeSheets);
+        });
+    }
+    private void createTimesheetPdf() throws IOException, DocumentException {
+        tableTimesheet.getSelectionModel().selectedItemProperty().addListener((obj,oldValue,newValue)->{
+            savePdfTimesheet.setOnAction(event -> {
+                FileChooser fileChooser=new FileChooser();
+                fileChooser.setTitle("Выберите путь");
+                File file=fileChooser.showSaveDialog(new Stage());
+                String fileName= file.getAbsolutePath();
+                try {
+                    Document document = new Document(PageSize.A4.rotate());
+                    PdfWriter.getInstance(document, new FileOutputStream(fileName));
+                    document.open();
+                    String font = "./src/main/resources/ArialRegular.ttf";
+                    BaseFont bf = BaseFont.createFont(font, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+                    Font fontParagraph = new Font(bf, 18, Font.NORMAL);
+                    Font fontTable = new Font(bf, 12, Font.NORMAL);
+                    Paragraph paragraph = new Paragraph(newValue.getDivision().getOrganization().getName(), fontParagraph);
+                    paragraph.setSpacingAfter(20);
+                    paragraph.setAlignment(Element.ALIGN_CENTER);
+                    document.add(paragraph);
+                    Paragraph paragraph1 = new Paragraph(newValue.getDivision().getName(), fontParagraph);
+                    paragraph1.setSpacingAfter(20);
+                    paragraph1.setAlignment(Element.ALIGN_CENTER);
+                    document.add(paragraph1);
+                    PdfPTable tableTimeSheetPdf = new PdfPTable(4);
+                    ObservableList<TableColumn<Timesheet, ?>> columns = tableTimesheet.getColumns();
+                    columns.forEach(c -> tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(c.getText(), fontTable))));
+                    tableTimeSheetPdf.setHeaderRows(1);
+                    tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(String.valueOf(newValue.getNumberDoc()))));
+                    tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(String.valueOf(newValue.getDateCompilation()))));
+                    tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(String.valueOf(newValue.getDateStart()))));
+                    tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(String.valueOf(newValue.getDateEnd()))));
+                    document.add(tableTimeSheetPdf);
+                    PdfPTable tableMarks=new PdfPTable(4);
+                    tableMarks.addCell(new PdfPCell(new Phrase("1",fontTable)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("2",fontTable)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("3",fontTable)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("4",fontTable)));
+                    PdfPTable tableTimeSheetWorker=new PdfPTable(4);
+                    tableTimeSheetWorker.addCell(new PdfPCell(new Phrase("Номер\nпо порядку",fontTable)));
+                    tableTimeSheetWorker.addCell(new PdfPCell(new Phrase("ФИО\nдолжность",fontTable)));
+                    tableTimeSheetWorker.addCell(new PdfPCell(new Phrase("Табельный\nномер",fontTable)));
+                    PdfPCell marks=new PdfPCell(tableMarks);
+                    PdfPHeaderCell title=new PdfPHeaderCell();
+                    title.setName("ОТМЕТКА");
+                    marks.addHeader(title);
+                    tableTimeSheetWorker.addCell(marks);
+                    tableTimeSheetWorker.setHeaderRows(1);
+                    for (TimesheetWorker timesheetWorker:newValue.getTimesheetWorkers()) {
+                        tableTimeSheetWorker.addCell(new PdfPCell(new Phrase(String.valueOf(timesheetWorker.getWorker().getId()),fontTable)));
+                        tableTimeSheetWorker.addCell(new PdfPCell(new Phrase(String.format("%s %s\n%s\n%s",
+                                timesheetWorker.getWorker().getLastName(),
+                                timesheetWorker.getWorker().getFirstName(),
+                                timesheetWorker.getWorker().getPatronymic(),timesheetWorker.getWorker().getPositionTypes().iterator().next().getTitle()),fontTable)));
+                        tableTimeSheetWorker.addCell(new PdfPCell(new Phrase(String.valueOf(timesheetWorker.getWorker().getNumberService()),fontTable)));
+
+                    }
+                    document.add(tableTimeSheetWorker);
+                    document.close();
+                }catch (DocumentException | IOException e) {
+                        e.printStackTrace();
+                    }
+            });
+        });
     }
 }

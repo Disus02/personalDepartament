@@ -18,4 +18,10 @@ public class Status {
     private String name;
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "status")
     private Set<Marks> marks;
+
+    @Override
+    public String toString() {
+        return name;
+
+    }
 }

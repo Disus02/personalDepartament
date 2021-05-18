@@ -29,4 +29,10 @@ public class TimesheetWorker {
     private CorrespondentAccount correspondentAccount;
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "timesheetWorker")
     private Set<Marks> marks;
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s",timesheet,paymentCode,correspondentAccount);
+
+    }
 }
