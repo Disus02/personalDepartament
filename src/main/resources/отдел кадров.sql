@@ -197,7 +197,7 @@ CREATE TABLE `marks` (
   KEY `fk_marks_timesheet_worker1_idx` (`timesheet_worker_id`),
   CONSTRAINT `fk_marks_status1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`),
   CONSTRAINT `fk_marks_timesheet_worker1` FOREIGN KEY (`timesheet_worker_id`) REFERENCES `timesheet_worker` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +206,7 @@ CREATE TABLE `marks` (
 
 LOCK TABLES `marks` WRITE;
 /*!40000 ALTER TABLE `marks` DISABLE KEYS */;
-INSERT INTO `marks` VALUES (1,1,8,1,1),(2,2,8,1,1),(3,3,8,1,1);
+INSERT INTO `marks` VALUES (1,1,8,1,1),(2,2,8,1,1),(3,3,8,1,1),(4,4,8,1,1);
 /*!40000 ALTER TABLE `marks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,7 +285,7 @@ CREATE TABLE `passport` (
   `registrationPlace` varchar(200) NOT NULL,
   `devisionCode` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -294,7 +294,7 @@ CREATE TABLE `passport` (
 
 LOCK TABLES `passport` WRITE;
 /*!40000 ALTER TABLE `passport` DISABLE KEYS */;
-INSERT INTO `passport` VALUES (1,2214,243675,'2007-05-12','ГУ МВД России по Нижегородской области','Нижегородская область Павловский район село Лаптево улица Советская дом 6',342054),(2,2213,435567,'2001-05-12','ГУ МВД по нижегородской области','Нижегородская область, Павловский район, село Ярымово, д. 5',52011);
+INSERT INTO `passport` VALUES (1,2214,243675,'2007-05-12','ГУ МВД России по Нижегородской области','Нижегородская область Павловский район село Лаптево улица Советская дом 6',342054),(2,2213,435567,'2001-05-12','ГУ МВД по нижегородской области','Нижегородская область, Павловский район, село Ярымово, д. 5',52011),(3,432576,2131,'2002-10-04','ГУ МВД по Нижегородской области','г. Павлово, улица Короленко, дом 17',5234);
 /*!40000 ALTER TABLE `passport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,7 +335,7 @@ CREATE TABLE `position_type` (
   `title` varchar(100) NOT NULL,
   `salary` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,7 +344,7 @@ CREATE TABLE `position_type` (
 
 LOCK TABLES `position_type` WRITE;
 /*!40000 ALTER TABLE `position_type` DISABLE KEYS */;
-INSERT INTO `position_type` VALUES (1,'инженер','50000 руб'),(2,'системный администратор','40000 руб');
+INSERT INTO `position_type` VALUES (1,'инженер','50000 руб'),(2,'системный администратор','40000 руб'),(3,'технолог-программист','30000 руб');
 /*!40000 ALTER TABLE `position_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,7 +372,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (1,1),(2,2);
+INSERT INTO `post` VALUES (1,1),(2,2),(3,3);
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -475,7 +475,7 @@ CREATE TABLE `timesheet_worker` (
   CONSTRAINT `fk_timesheet_worker_payment_code1` FOREIGN KEY (`payment_code_id`) REFERENCES `payment_code` (`id`),
   CONSTRAINT `fk_timesheet_worker_timesheet1` FOREIGN KEY (`timesheet_id`) REFERENCES `timesheet` (`id`),
   CONSTRAINT `fk_Т сотрудника_worker1` FOREIGN KEY (`worker_id`) REFERENCES `worker` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -484,7 +484,7 @@ CREATE TABLE `timesheet_worker` (
 
 LOCK TABLES `timesheet_worker` WRITE;
 /*!40000 ALTER TABLE `timesheet_worker` DISABLE KEYS */;
-INSERT INTO `timesheet_worker` VALUES (1,1,1,1,1);
+INSERT INTO `timesheet_worker` VALUES (1,1,1,1,1),(2,3,1,1,1);
 /*!40000 ALTER TABLE `timesheet_worker` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -557,7 +557,7 @@ CREATE TABLE `work_book` (
   `dateIssue` date NOT NULL,
   `whomIssued` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -566,7 +566,7 @@ CREATE TABLE `work_book` (
 
 LOCK TABLES `work_book` WRITE;
 /*!40000 ALTER TABLE `work_book` DISABLE KEYS */;
-INSERT INTO `work_book` VALUES (1,1231,4625251,'2018-02-24','ООО\"ВЕКТОР\"'),(2,2131,213432,'2017-02-09','ОАО \"СЧВ\"');
+INSERT INTO `work_book` VALUES (1,1231,4625251,'2018-02-24','ООО\"ВЕКТОР\"'),(2,2131,213432,'2017-02-09','ОАО \"СЧВ\"'),(3,299876,3121,'2010-05-22','ОАО \"ПАЗ\"');
 /*!40000 ALTER TABLE `work_book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -599,7 +599,7 @@ CREATE TABLE `worker` (
   CONSTRAINT `fk_worker_division1` FOREIGN KEY (`division_id`) REFERENCES `division` (`id`),
   CONSTRAINT `fk_worker_passport1` FOREIGN KEY (`passport_id`) REFERENCES `passport` (`id`),
   CONSTRAINT `fk_worker_work_book1` FOREIGN KEY (`work_book_id`) REFERENCES `work_book` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -608,7 +608,7 @@ CREATE TABLE `worker` (
 
 LOCK TABLES `worker` WRITE;
 /*!40000 ALTER TABLE `worker` DISABLE KEYS */;
-INSERT INTO `worker` VALUES (1,'Алексей','Лапушкин','Александрович','город Павлово улица Правика дом 13','1993-02-21',770708389,'2018-06-12','image/1.jpg',761234560,1,1,1,1),(2,'Илья','Серебряков','Викторович','г. Павлово, улица Мичурина, д 6','1991-05-17',534675,'2017-05-25','image/2.jpg',3452732,2,2,2,2);
+INSERT INTO `worker` VALUES (1,'Алексей','Лапушкин','Александрович','город Павлово улица Правика дом 13','1993-02-21',770708389,'2018-06-12','image/1.jpg',761234560,1,1,1,1),(2,'Илья','Серебряков','Викторович','г. Павлово, улица Мичурина, д 6','1991-05-17',534675,'2017-05-25','image/2.jpg',3452732,2,2,2,2),(3,'Виталий','Горохов','Григорьевич','г. Павлово, улица Короленко, дом 17','1986-09-11',875432,'2019-05-10','image/3.jpg',3547658,3,3,3,2);
 /*!40000 ALTER TABLE `worker` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -621,4 +621,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-11  1:14:38
+-- Dump completed on 2021-05-25  1:10:57
