@@ -209,7 +209,7 @@ public class ControllerCreateWorker {
         worker.setPassport(comboPassport.getValue());
         worker.setWorkBook(comboWorkBook.getValue());
         worker.setDivision(comboDivision.getValue());
-        worker.setPositionTypes(Collections.singleton(comboPost.getValue()));
+        worker.addPost(comboPost.getValue());
         workerService.create(worker);
     }
     private void clearScreen(){

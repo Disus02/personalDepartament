@@ -73,7 +73,7 @@
                         <TextArea fx:id="txtAddress" layoutX="444.0" layoutY="291.0" prefHeight="100.0" prefWidth="168.0" />
                         <ImageView fx:id="imagePhoto" fitHeight="187.0" fitWidth="174.0" layoutX="357.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" />
                         <Button fx:id="buttonPath" layoutX="547.0" layoutY="439.0" mnemonicParsing="false" text="Выбрать" />
-                        <Button fx:id="updateWorker" layoutX="510.0" layoutY="618.0" mnemonicParsing="false" onAction="#updateWorker" text="Сохранить" />
+                        <Button fx:id="updateWorker" layoutX="510.0" layoutY="618.0" mnemonicParsing="false"  text="Сохранить" />
                         <Text layoutX="386.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Фамилия" />
                         <Text layoutX="400.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Имя" />
                         <Text layoutX="385.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Отчество" />

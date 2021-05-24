@@ -26,4 +26,5 @@ public class Timetable {
     public String toString() {
         return String.format("%s по %s", dateStart,dateEnd);
     }
+
 }

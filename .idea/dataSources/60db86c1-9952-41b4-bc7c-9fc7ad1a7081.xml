@@ -1589,6 +1589,7 @@ post_id</ColNames>
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
     </column>
     <column id="440" parent="310" name="firstName">
       <Position>2</Position>
@@ -1664,6 +1665,7 @@ post_id</ColNames>
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
     </column>
     <column id="455" parent="312" name="firstName">
       <Position>2</Position>
@@ -1715,31 +1717,31 @@ post_id</ColNames>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="465" parent="312" name="passport_id">
+    <column id="465" parent="312" name="work_book_id">
       <Position>12</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="466" parent="312" name="division_id">
+    <column id="466" parent="312" name="passport_id">
       <Position>13</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="467" parent="312" name="work_book_id">
+    <column id="467" parent="312" name="division_id">
       <Position>14</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="468" parent="312" name="fk_worker_passport1_idx">
+    <index id="468" parent="312" name="fk_worker_work_book1_idx">
+      <ColNames>work_book_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="469" parent="312" name="fk_worker_passport1_idx">
       <ColNames>passport_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="469" parent="312" name="fk_worker_division1_idx">
+    <index id="470" parent="312" name="fk_worker_division1_idx">
       <ColNames>division_id</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="470" parent="312" name="fk_worker_work_book1_idx">
-      <ColNames>work_book_id</ColNames>
       <Type>btree</Type>
     </index>
     <key id="471" parent="312" name="PRIMARY">
@@ -1747,19 +1749,19 @@ post_id</ColNames>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="472" parent="312" name="fk_worker_passport1">
+    <foreign-key id="472" parent="312" name="fk_worker_work_book1">
+      <ColNames>work_book_id</ColNames>
+      <RefTableName>work_book</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="473" parent="312" name="fk_worker_passport1">
       <ColNames>passport_id</ColNames>
       <RefTableName>passport</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="473" parent="312" name="fk_worker_division1">
+    <foreign-key id="474" parent="312" name="fk_worker_division1">
       <ColNames>division_id</ColNames>
       <RefTableName>division</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="474" parent="312" name="fk_worker_work_book1">
-      <ColNames>work_book_id</ColNames>
-      <RefTableName>work_book</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
   </database-model>

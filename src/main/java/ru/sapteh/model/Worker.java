@@ -69,4 +69,7 @@ public class Worker {
     public String toString() {
         return String.format("%s %s %s",firstName, lastName, patronymic);
     }
+    public void addPost(PositionType positionType){
+        positionTypes.add(positionType);
+    }
 }

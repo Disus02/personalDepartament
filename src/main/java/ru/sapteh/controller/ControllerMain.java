@@ -199,6 +199,7 @@ public class ControllerMain {
 
     @FXML
     private Button savePdfTimesheet;
+    Timetable timetable=new Timetable();
 
     @FXML
     void initialize() throws IOException, DocumentException {
@@ -239,17 +240,17 @@ public class ControllerMain {
         buttonSaveMarks.setOnAction(event -> {
             createMarks();
         });
+        saveHoliday.setOnAction(event -> {
+            createHoliday();
+        });
         createTimesheetPdf();
-    }
-    @FXML
-    void updateWorker(ActionEvent event) {
-
     }
 
     private void getWorker(){
         SessionFactory factory=new Configuration().configure().buildSessionFactory();
         WorkerService workerService=new WorkerService(factory);
         workers.addAll(workerService.readByAll());
+        comboWorkerHoliday.setItems(workers);
     }
     private void searchWorker(){
         FilteredList<Worker> filterList = new FilteredList<>(workers, p -> true);
@@ -465,5 +466,12 @@ public class ControllerMain {
                     }
             });
         });
+    }
+    private void createHoliday(){
+        SessionFactory factory=new Configuration().configure().buildSessionFactory();
+        Dao<Worker,Integer> workerService=new WorkerService(factory);
+
+
+
     }
 }
