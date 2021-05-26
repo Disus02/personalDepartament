@@ -221,6 +221,7 @@ public class ControllerMain {
                 Parent parent= FXMLLoader.load(getClass().getResource("/view/createWorker.fxml"));
                 Stage stage=new Stage();
                 stage.setTitle("Добавление сотрудника");
+                stage.getIcons().add(new Image(getClass().getResourceAsStream("/logo.png")));
                 stage.setScene(new Scene(parent));
                 stage.show();
             } catch (IOException e) {

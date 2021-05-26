@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import ru.sapteh.model.Users;
 
@@ -39,6 +40,7 @@ public class ControllerLogin {
                 Stage stage=new Stage();
                 stage.setScene(new Scene(parent));
                 stage.setTitle("Главная страница");
+                stage.getIcons().add(new Image(getClass().getResourceAsStream("/logo.png")));
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
