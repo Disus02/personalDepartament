@@ -163,6 +163,7 @@
                         <Text layoutX="46.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите код вида оплаты" />
                         <Text layoutX="262.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите кореспондентский счет" />
                         <Line endX="398.0" layoutX="474.0" layoutY="372.0" startX="-474.0" />
+                        <Button layoutX="194.0" layoutY="601.0" mnemonicParsing="false" text="Сохранить" />
                      </children></AnchorPane>
             </content>
           </Tab>
