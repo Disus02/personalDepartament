@@ -73,7 +73,7 @@
                         <TextArea fx:id="txtAddress" layoutX="444.0" layoutY="291.0" prefHeight="100.0" prefWidth="168.0" />
                         <ImageView fx:id="imagePhoto" fitHeight="187.0" fitWidth="174.0" layoutX="357.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" />
                         <Button fx:id="buttonPath" layoutX="547.0" layoutY="439.0" mnemonicParsing="false" text="Выбрать" />
-                        <Button fx:id="updateWorker" layoutX="510.0" layoutY="618.0" mnemonicParsing="false"  text="Сохранить" />
+                        <Button fx:id="updateWorker" layoutX="510.0" layoutY="618.0" mnemonicParsing="false" text="Сохранить" />
                         <Text layoutX="386.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Фамилия" />
                         <Text layoutX="400.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Имя" />
                         <Text layoutX="385.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Отчество" />
@@ -216,7 +216,7 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="518.0" prefWidth="872.0">
                      <children>
                         <ComboBox fx:id="comboDivisionTimesheet" layoutX="33.0" layoutY="21.0" prefHeight="25.0" prefWidth="177.0" promptText="Список Подразделений" />
-                        <TableView fx:id="tableTimesheet" layoutX="26.0" layoutY="63.0" prefHeight="468.0" prefWidth="404.0">
+                        <TableView fx:id="tableTimesheet" layoutX="26.0" layoutY="63.0" prefHeight="330.0" prefWidth="404.0">
                           <columns>
                             <TableColumn fx:id="columnNumberDoc" prefWidth="88.0" text="№ документа" />
                             <TableColumn fx:id="columnDateCompilation" prefWidth="112.0" text="Дата составления" />
@@ -225,6 +225,21 @@
                           </columns>
                         </TableView>
                         <Button fx:id="savePdfTimesheet" layoutX="558.0" layoutY="105.0" mnemonicParsing="false" text="Составить табель" />
+                        <Line endX="771.0" layoutX="101.0" layoutY="404.0" startX="-100.0" />
+                        <Text layoutX="272.0" layoutY="442.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Табель учета рабочего времени">
+                           <font>
+                              <Font name="Arial Black" size="18.0" />
+                           </font>
+                        </Text>
+                        <TextField layoutX="193.0" layoutY="486.0" />
+                        <DatePicker layoutX="193.0" layoutY="550.0" />
+                        <DatePicker layoutX="513.0" layoutY="486.0" />
+                        <DatePicker layoutX="513.0" layoutY="550.0" />
+                        <Text layoutX="110.0" layoutY="503.0" strokeType="OUTSIDE" strokeWidth="0.0" text="№ документа:" />
+                        <Text layoutX="88.0" layoutY="567.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Дата составления:" />
+                        <Text layoutX="450.0" layoutY="503.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Период с:" />
+                        <Text layoutX="445.0" layoutY="567.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Период по:" />
+                        <Button layoutX="521.0" layoutY="613.0" mnemonicParsing="false" text="Сохранить" />
                      </children></AnchorPane>
               </content>
             </Tab>
