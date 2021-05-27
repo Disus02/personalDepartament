@@ -10,17 +10,17 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="300.0" prefWidth="350.0" style="-fx-background-color: #393E46;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.sapteh.controller.ControllerLogin">
+<AnchorPane prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: #393E46;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.sapteh.controller.ControllerLogin">
     <children>
-        <TextField fx:id="txtLogin" layoutX="109.0" layoutY="79.0" style="-fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: #AA96DA;">
+        <TextField fx:id="txtLogin" layoutX="115.0" layoutY="79.0" style="-fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: #AA96DA;">
          <font>
-            <Font name="Microsoft YaHei Bold" size="15.0" />
+            <Font name="System Bold" size="15.0" />
          </font></TextField>
-        <PasswordField fx:id="txtPassword" layoutX="109.0" layoutY="118.0" style="-fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: #AA96DA;">
+        <PasswordField fx:id="txtPassword" layoutX="115.0" layoutY="142.0" style="-fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: #AA96DA;">
          <font>
-            <Font name="Microsoft YaHei Bold" size="15.0" />
+            <Font name="System Bold" size="15.0" />
          </font></PasswordField>
-        <Button fx:id="buttonOpen" layoutX="187.0" layoutY="216.0" mnemonicParsing="false" style="-fx-background-color: #AA96DA; -fx-background-radius: 100; -fx-border-color: #FCBAD3; -fx-border-radius: 100; -fx-border-width: 3;" text="Войти">
+        <Button fx:id="buttonOpen" layoutX="190.0" layoutY="259.0" mnemonicParsing="false" style="-fx-background-color: #AA96DA; -fx-background-radius: 100; -fx-border-color: #FCBAD3; -fx-border-radius: 100; -fx-border-width: 3;" text="Войти">
             
             
             <font>
@@ -30,7 +30,8 @@
                 <InnerShadow />
             </effect>
         </Button>
-        <Button fx:id="buttonExit" layoutX="80.0" layoutY="216.0" mnemonicParsing="false" style="-fx-background-color: #AA96DA; -fx-background-radius: 100; -fx-border-color: #FCBAD3; -fx-border-radius: 100; -fx-border-width: 3;" text="Выйти">
+        <Button fx:id="buttonExit" layoutX="83.0" layoutY="259.0" mnemonicParsing="false" style="-fx-background-color: #AA96DA; -fx-background-radius: 100; -fx-border-color: #FCBAD3; -fx-border-radius: 100; -fx-border-width: 3;" text="Выйти">
+            =======
             <font>
                 <Font name="Arial Black" size="15.0" />
             </font>
@@ -38,17 +39,17 @@
                 <InnerShadow />
             </effect>
         </Button>
-        <Text fill="WHITE" layoutX="31.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Логин:" wrappingWidth="63.68408203125">
+        <Text fill="WHITE" layoutX="40.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Логин:" wrappingWidth="57.630859375">
             <font>
                 <Font name="Microsoft YaHei Bold" size="15.0" />
             </font>
         </Text>
-        <Text fill="WHITE" layoutX="27.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Пароль:">
+        <Text fill="WHITE" layoutX="34.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Пароль:">
             <font>
                 <Font name="Microsoft YaHei Bold" size="15.0" />
             </font>
         </Text>
-        <Label fx:id="status" layoutX="89.0" layoutY="179.0" prefHeight="17.0" prefWidth="173.0" />
+        <Label fx:id="status" layoutX="40.0" layoutY="209.0" prefHeight="17.0" prefWidth="285.0" />
     </children>
     <cursor>
         <Cursor fx:constant="DEFAULT" />
