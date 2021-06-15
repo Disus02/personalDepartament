@@ -22,5 +22,8 @@ public class Marks {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "timesheet_worker_id")
     private TimesheetWorker timesheetWorker;
+    public String toString(){
+        return String.format("%d\n%s",quantityHours,status);
+    }
 
 }

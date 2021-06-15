@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import ru.sapteh.dao.Dao;
-import ru.sapteh.model.DocumentType;
 import ru.sapteh.model.Education;
 
 import java.util.List;

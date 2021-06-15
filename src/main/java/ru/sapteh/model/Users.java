@@ -18,7 +18,7 @@ public class Users {
     private String lastName;
     private String login;
     private String password;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
 

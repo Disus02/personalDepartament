@@ -31,10 +31,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
+import java.util.List;
 
 public class ControllerMain {
     ObservableList<Worker> workers= FXCollections.observableArrayList();
+    ObservableList<Marks> marks=FXCollections.observableArrayList();
     @FXML
     private TableView<Worker> tableWorker;
 
@@ -105,72 +107,50 @@ public class ControllerMain {
     private Button deleteWorker;
     @FXML
     private TableView<TimesheetWorker> tableTimesheetWorker;
-
     @FXML
     private TableColumn<TimesheetWorker, Date> columnDateStart;
-
     @FXML
     private TableColumn<TimesheetWorker, Date> columnDateEnd;
-
     @FXML
     private TableColumn<TimesheetWorker, Integer> columnPaymentCode;
-
     @FXML
     private TableColumn<TimesheetWorker, Integer> columnCorAccount;
-
     @FXML
     private TextField txtNumberDay;
-
     @FXML
     private TextField txtQuantityHours;
-
     @FXML
     private ComboBox<Status> comboStatus;
-
     @FXML
     private ComboBox<TimesheetWorker> comboTimesheetWorker;
-
     @FXML
     private TableView<Marks> tableMarks;
-
     @FXML
     private TableColumn<Marks, Integer> columnNumberDay;
-
     @FXML
     private TableColumn<Marks,Integer> columnQuantityHours;
-
     @FXML
     private TableColumn<Marks, String> columnStatus;
-
     @FXML
     private ComboBox<Worker> comboWorkers;
-
     @FXML
     private Button buttonSaveMarks;
     @FXML
     private ComboBox<Timetable> comboTimetable;
-
     @FXML
     private TableView<Worker> tableListWorker;
-
     @FXML
     private TableColumn<Worker, String> columnFirstNameW;
-
     @FXML
     private TableColumn<Worker, String> columnLastNameW;
-
     @FXML
     private TableColumn<Worker, String> columnPatronymicW;
-
     @FXML
     private TextField numberOrder;
-
     @FXML
     private DatePicker dateStartHoliday;
-
     @FXML
     private DatePicker dateEndHoliday;
-
     @FXML
     private ComboBox<Worker> comboWorkerHoliday;
     @FXML
@@ -181,28 +161,60 @@ public class ControllerMain {
     private Button saveHoliday;
     @FXML
     private ComboBox<Division> comboDivisionTimesheet;
-
     @FXML
     private TableView<Timesheet> tableTimesheet;
-
     @FXML
     private TableColumn<Timesheet,Integer> columnNumberDoc;
-
     @FXML
     private TableColumn<Timesheet, Date> columnDateCompilation;
-
     @FXML
     private TableColumn<Timesheet, Date> columnPeriodFrom;
-
     @FXML
     private TableColumn<Timesheet, Date> columnPeriodTo;
-
+    @FXML
+    private ComboBox<Timesheet> comboPeriod;
+    @FXML
+    private ComboBox<Worker> comboWorkTimesheet;
+    @FXML
+    private ComboBox<PaymentCode> comboPaymentCode;
+    @FXML
+    private ComboBox<CorrespondentAccount> comboCorrespondentAccount;
+    @FXML
+    private Button saveTimesheetWorker;
+    @FXML
+    private Button openRegUser;
     @FXML
     private Button savePdfTimesheet;
+    @FXML
+    private TextField txtNumberDoc;
+    @FXML
+    private DatePicker dateSostav;
+    @FXML
+    private DatePicker datePeriodStart;
+    @FXML
+    private DatePicker datePeriodEnd;
+    @FXML
+    private Button saveTimesheet;
     Timetable timetable=new Timetable();
+    private Worker worker;
+    private PositionType positionType;
+    int count=0;
 
     @FXML
     void initialize() throws IOException, DocumentException {
+        if (ControllerLogin.role.equals("Директор")){
+            openRegUser.setDisable(true);
+            buttonOpenCreateWorker.setDisable(true);
+            saveHoliday.setDisable(true);
+            saveTimetable.setDisable(true);
+            buttonSaveMarks.setDisable(true);
+            buttonPath.setDisable(true);
+            deleteWorker.setDisable(true);
+            updateWorker.setDisable(true);
+        }else if (ControllerLogin.role.equals("Табельщик")){
+            deleteWorker.setDisable(true);
+        }
+        getLists();
         getWorker();
         columnFirstName.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getFirstName()));
         columnLastName.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getLastName()));
@@ -210,12 +222,27 @@ public class ControllerMain {
         tableWorker.setItems(workers);
         tableWorker.getSelectionModel().selectedItemProperty().addListener(((observableValue, oldValue, newValue) -> {
             try {
+                if (newValue!=null){
+                    worker=newValue;
+                }
                 showDetailsWorker(newValue);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }));
         searchWorker();
+        openRegUser.setOnAction(event -> {
+            try {
+                Parent parent = FXMLLoader.load(getClass().getResource("/view/regUser.fxml"));
+                Stage stage=new Stage();
+                stage.setTitle("Добавление пользователя");
+                stage.getIcons().add(new Image(getClass().getResourceAsStream("/logo.png")));
+                stage.setScene(new Scene(parent));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         buttonOpenCreateWorker.setOnAction(event -> {
             try {
                 Parent parent= FXMLLoader.load(getClass().getResource("/view/createWorker.fxml"));
@@ -240,11 +267,29 @@ public class ControllerMain {
         initializeTimesheet();
         buttonSaveMarks.setOnAction(event -> {
             createMarks();
+            initializeTableTimeSheetWorker();
         });
         saveHoliday.setOnAction(event -> {
             createHoliday();
         });
         createTimesheetPdf();
+        saveTimesheetWorker.setOnAction(event -> {
+            createTimesheetWorker();
+        });
+        updateWorker.setOnAction(event -> {
+            try {
+                updateWorkers();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+        saveTimesheet.setOnAction(event -> {
+            try {
+                createTimesheet();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void getWorker(){
@@ -317,7 +362,6 @@ public class ControllerMain {
         }
     }
     private void initializeTableTimeSheetWorker(){
-        ObservableList<Marks> marks=FXCollections.observableArrayList();
         ObservableList<Status> statuses=FXCollections.observableArrayList();
         ObservableList<TimesheetWorker> timesheetWorkers=FXCollections.observableArrayList();
         ObservableList<Worker> workers=FXCollections.observableArrayList();
@@ -336,7 +380,11 @@ public class ControllerMain {
             columnPaymentCode.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getPaymentCode().getCode()));
             columnCorAccount.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getCorrespondentAccount().getCode()));
             tableTimesheetWorker.setItems(timesheetWorkers);
+
         });
+        initializeMarks();
+    }
+    private void initializeMarks(){
         tableTimesheetWorker.getSelectionModel().selectedItemProperty().addListener((obj,oldValue,newValue)->{
             marks.clear();
             marks.addAll(newValue.getMarks());
@@ -345,7 +393,6 @@ public class ControllerMain {
             columnStatus.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getStatus().getName()));
             tableMarks.setItems(marks);
         });
-
     }
     private void initializeTimetable(){
         ObservableList<Timetable> timetables=FXCollections.observableArrayList();
@@ -412,13 +459,14 @@ public class ControllerMain {
                 File file=fileChooser.showSaveDialog(new Stage());
                 String fileName= file.getAbsolutePath();
                 try {
-                    Document document = new Document(PageSize.A4.rotate());
-                    PdfWriter.getInstance(document, new FileOutputStream(fileName));
+                    Document document = new Document(PageSize.A3.rotate());
+                    PdfWriter.getInstance(document, new FileOutputStream(fileName+".pdf"));
                     document.open();
                     String font = "./src/main/resources/ArialRegular.ttf";
                     BaseFont bf = BaseFont.createFont(font, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                     Font fontParagraph = new Font(bf, 18, Font.NORMAL);
-                    Font fontTable = new Font(bf, 12, Font.NORMAL);
+                    Font fontTable = new Font(bf, 8, Font.NORMAL);
+                    Font fontNumberDay=new Font(bf,8,Font.NORMAL);
                     Paragraph paragraph = new Paragraph(newValue.getDivision().getOrganization().getName(), fontParagraph);
                     paragraph.setSpacingAfter(20);
                     paragraph.setAlignment(Element.ALIGN_CENTER);
@@ -431,34 +479,75 @@ public class ControllerMain {
                     ObservableList<TableColumn<Timesheet, ?>> columns = tableTimesheet.getColumns();
                     columns.forEach(c -> tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(c.getText(), fontTable))));
                     tableTimeSheetPdf.setHeaderRows(1);
-                    tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(String.valueOf(newValue.getNumberDoc()))));
-                    tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(String.valueOf(newValue.getDateCompilation()))));
-                    tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(String.valueOf(newValue.getDateStart()))));
-                    tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(String.valueOf(newValue.getDateEnd()))));
+                    tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(String.valueOf(newValue.getNumberDoc()),fontTable)));
+                    tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(newValue.getDateCompilation().toString().substring(0,10),fontTable)));
+                    tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(newValue.getDateStart().toString().substring(0,10),fontTable)));
+                    tableTimeSheetPdf.addCell(new PdfPCell(new Phrase(newValue.getDateEnd().toString().substring(0,10),fontTable)));
                     document.add(tableTimeSheetPdf);
-                    PdfPTable tableMarks=new PdfPTable(4);
-                    tableMarks.addCell(new PdfPCell(new Phrase("1",fontTable)));
-                    tableMarks.addCell(new PdfPCell(new Phrase("2",fontTable)));
-                    tableMarks.addCell(new PdfPCell(new Phrase("3",fontTable)));
-                    tableMarks.addCell(new PdfPCell(new Phrase("4",fontTable)));
-                    PdfPTable tableTimeSheetWorker=new PdfPTable(4);
-                    tableTimeSheetWorker.addCell(new PdfPCell(new Phrase("Номер\nпо порядку",fontTable)));
+                    PdfPTable tableMarks=new PdfPTable(15);
+                    tableMarks.addCell(new PdfPCell(new Phrase("1",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("2",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("3",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("4",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("5",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("6",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("7",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("8",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("9",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("10",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("11",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("12",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("13",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("14",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("15",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("16",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("17",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("18",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("19",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("20",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("21",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("22",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("23",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("24",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("25",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("26",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("27",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("28",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("29",fontNumberDay)));
+                    tableMarks.addCell(new PdfPCell(new Phrase("30",fontNumberDay)));
+                    PdfPTable tableStatus=new PdfPTable(15);
+                    PdfPTable tableTimeSheetWorker=new PdfPTable(7);
+                    PdfPCell number=new PdfPCell(new Phrase("Номер\nпо порядку",fontTable));
+                    tableTimeSheetWorker.addCell(number);
                     tableTimeSheetWorker.addCell(new PdfPCell(new Phrase("ФИО\nдолжность",fontTable)));
                     tableTimeSheetWorker.addCell(new PdfPCell(new Phrase("Табельный\nномер",fontTable)));
                     PdfPCell marks=new PdfPCell(tableMarks);
-                    PdfPHeaderCell title=new PdfPHeaderCell();
-                    title.setName("ОТМЕТКА");
-                    marks.addHeader(title);
                     tableTimeSheetWorker.addCell(marks);
+                    tableTimeSheetWorker.addCell(new PdfPCell(new Phrase("дней\nчасов",fontTable)));
+                    tableTimeSheetWorker.addCell(new PdfPCell(new Phrase("код вида оплаты",fontTable)));
+                    tableTimeSheetWorker.addCell(new PdfPCell(new Phrase("корреспондентский\nсчет",fontTable)));
                     tableTimeSheetWorker.setHeaderRows(1);
                     for (TimesheetWorker timesheetWorker:newValue.getTimesheetWorkers()) {
-                        tableTimeSheetWorker.addCell(new PdfPCell(new Phrase(String.valueOf(timesheetWorker.getWorker().getId()),fontTable)));
+                        PdfPCell id=new PdfPCell(new Phrase(String.valueOf(timesheetWorker.getWorker().getId()),fontTable));
+                        tableTimeSheetWorker.addCell(id);
                         tableTimeSheetWorker.addCell(new PdfPCell(new Phrase(String.format("%s %s\n%s\n%s",
                                 timesheetWorker.getWorker().getLastName(),
                                 timesheetWorker.getWorker().getFirstName(),
                                 timesheetWorker.getWorker().getPatronymic(),timesheetWorker.getWorker().getPositionTypes().iterator().next().getTitle()),fontTable)));
                         tableTimeSheetWorker.addCell(new PdfPCell(new Phrase(String.valueOf(timesheetWorker.getWorker().getNumberService()),fontTable)));
-
+                        Set<Marks> marksSet=timesheetWorker.getMarks();
+                        int quantityHours=0;
+                        for (Marks marks1:marksSet){
+                            tableStatus.addCell(new PdfPCell(new Phrase(String.format("%d\n%s",marks1.getQuantityHours(),
+                                    marks1.getStatus()),fontTable)));
+                            quantityHours+=marks1.getQuantityHours();
+                        }
+                        int quantityDay=quantityHours/8;
+                        tableTimeSheetWorker.addCell(new PdfPCell(tableStatus));
+                        tableTimeSheetWorker.addCell(new PdfPCell(new Phrase(String.format("%d\n%d",quantityDay,quantityHours),fontTable)));
+                        tableTimeSheetWorker.addCell(new PdfPCell(new Phrase(String.valueOf(timesheetWorker.getPaymentCode().getCode()),fontTable)));
+                        tableTimeSheetWorker.addCell(new PdfPCell(new Phrase(String.valueOf(timesheetWorker.getCorrespondentAccount().getCode()),fontTable)));
+                        tableStatus.resetColumnCount(14);
                     }
                     document.add(tableTimeSheetWorker);
                     document.close();
@@ -471,8 +560,85 @@ public class ControllerMain {
     private void createHoliday(){
         SessionFactory factory=new Configuration().configure().buildSessionFactory();
         Dao<Worker,Integer> workerService=new WorkerService(factory);
+        Worker worker=comboWorkerHoliday.getValue();
+        worker.addHoliday(comboTimetableReg.getValue());
+        workerService.update(worker);
+    }
+    private void createTimesheetWorker(){
+        SessionFactory factory=new Configuration().configure().buildSessionFactory();
+        Dao<TimesheetWorker,Integer> timesheetWorkerService=new TimesheetWorkerService(factory);
+        TimesheetWorker timesheetWorker=new TimesheetWorker();
+        timesheetWorker.setTimesheet(comboPeriod.getValue());
+        timesheetWorker.setWorker(comboWorkTimesheet.getValue());
+        timesheetWorker.setCorrespondentAccount(comboCorrespondentAccount.getValue());
+        timesheetWorker.setPaymentCode(comboPaymentCode.getValue());
+        timesheetWorkerService.create(timesheetWorker);
 
+    }
+    private void getLists(){
+        SessionFactory factory=new Configuration().configure().buildSessionFactory();
+        Dao<Worker,Integer> workerIntegerDao=new WorkerService(factory);
+        Dao<PaymentCode,Integer> paymentCodeService=new PaymentCodeService(factory);
+        Dao<CorrespondentAccount,Integer> correspondentAccountService=new CorrespondentAccountService(factory);
+        Dao<Timesheet,Integer> timesheetIntegerDao=new TimesheetService(factory);
 
+        ObservableList<Worker> workerLists=FXCollections.observableArrayList();
+        ObservableList<PaymentCode> paymentCodes=FXCollections.observableArrayList();
+        ObservableList<CorrespondentAccount> correspondentAccounts=FXCollections.observableArrayList();
+        ObservableList<Timesheet> timesheetlist=FXCollections.observableArrayList();
+        workerLists.addAll(workerIntegerDao.readByAll());
+        paymentCodes.addAll(paymentCodeService.readByAll());
+        correspondentAccounts.addAll(correspondentAccountService.readByAll());
+        timesheetlist.addAll(timesheetIntegerDao.readByAll());
 
+        comboPeriod.setItems(timesheetlist);
+        comboCorrespondentAccount.setItems(correspondentAccounts);
+        comboPaymentCode.setItems(paymentCodes);
+        comboWorkTimesheet.setItems(workerLists);
+    }
+    private void updateWorkers() throws ParseException {
+        SessionFactory factory=new Configuration().configure().buildSessionFactory();
+        Dao<Worker,Integer> workerIntegerDao=new WorkerService(factory);
+        Dao<Passport,Integer> passportIntegerDao=new PassportService(factory);
+        Dao<PositionType,Integer> positionTypeIntegerDao=new PositionTypeService(factory);
+        worker.setFirstName(txtFirstName.getText());
+        worker.setLastName(txtLastName.getText());
+        worker.setPatronymic(txtPatronymic.getText());
+        worker.setAddress(txtAddress.getText());
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Date birthday=simpleDateFormat.parse(txtBirthday.getText());
+        worker.setBirthday(birthday);
+        Date dateEmployee=simpleDateFormat.parse(txtDateEmployment.getText());
+        worker.setDateEmployment(dateEmployee);
+        worker.getPassport().setDevisionCode(Integer.parseInt(txtDivisionCode.getText()));
+        worker.getPassport().setRegistrationPlace(txtRegPlace.getText());
+        worker.getPassport().setNumber(Integer.parseInt(txtNumbers.getText()));
+        worker.getPassport().setSeries(Integer.parseInt(txtSeries.getText()));
+        worker.getPassport().setWhomIssued(txtWhomIssued.getText());
+        passportIntegerDao.update(worker.getPassport());
+        Date dateIssue=simpleDateFormat.parse(txtDateIssue.getText());
+        worker.getPassport().setDateIssue(dateIssue);
+        for (PositionType positionType1:worker.getPositionTypes()) {
+            positionType=positionType1;
+        }
+        positionType.setTitle(txtTitlePost.getText());
+        positionType.setSalary(txtSalary.getText());
+        positionTypeIntegerDao.update(positionType);
+        workerIntegerDao.update(worker);
+    }
+    private void createTimesheet() throws ParseException {
+        SessionFactory factory=new Configuration().configure().buildSessionFactory();
+        Dao<Timesheet,Integer> timesheetIntegerDao=new TimesheetService(factory);
+        Timesheet timesheet=new Timesheet();
+        timesheet.setNumberDoc(Integer.parseInt(txtNumberDoc.getText()));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateCompil = format.parse(dateSostav.getValue().toString().substring(0,10));
+        timesheet.setDateCompilation(dateCompil);
+        Date dateStart=format.parse(datePeriodStart.getValue().toString().substring(0,10));
+        timesheet.setDateStart(dateStart);
+        Date dateEnd=format.parse(datePeriodEnd.getValue().toString().substring(0,10));
+        timesheet.setDateEnd(dateEnd);
+        timesheet.setDivision(comboDivisionTimesheet.getValue());
+        timesheetIntegerDao.create(timesheet);
     }
 }

@@ -18,4 +18,12 @@ public class Role {
     private String title;
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "role")
     private Set<Users> users;
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }

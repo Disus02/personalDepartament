@@ -44,7 +44,10 @@ public class UsersService implements Dao<Users,Integer> {
 
     @Override
     public Users read(Integer integer) {
-        return null;
+        try(Session session=factory.openSession()) {
+            Users users=session.get(Users.class,integer);
+            return users;
+        }
     }
 
     @Override

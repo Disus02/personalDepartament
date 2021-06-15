@@ -6,6 +6,7 @@ import org.hibernate.query.Query;
 import ru.sapteh.dao.Dao;
 import ru.sapteh.model.PositionType;
 import ru.sapteh.model.Role;
+import ru.sapteh.model.Users;
 
 import java.util.List;
 
@@ -43,7 +44,10 @@ public class RoleService implements Dao<Role,Integer> {
 
     @Override
     public Role read(Integer integer) {
-        return null;
+        try(Session session=factory.openSession()) {
+            Role role = session.get(Role.class, integer);
+            return role;
+        }
     }
 
     @Override

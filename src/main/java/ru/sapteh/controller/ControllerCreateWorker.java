@@ -12,9 +12,7 @@ import ru.sapteh.service.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 
 public class ControllerCreateWorker {
     ObservableList<Division> divisions= FXCollections.observableArrayList();
@@ -23,82 +21,56 @@ public class ControllerCreateWorker {
     ObservableList<PositionType> positionTypes=FXCollections.observableArrayList();
     @FXML
     private TextField txtNumberPassport;
-
     @FXML
     private TextField txtSeriesPassport;
-
     @FXML
     private DatePicker dateIssuePassport;
-
     @FXML
     private TextField txtDivisionCodePassport;
-
     @FXML
     private TextArea whomIssuedPassport;
-
     @FXML
     private TextArea registrationPlacePassport;
-
     @FXML
     private TextField txtTitleDivision;
-
     @FXML
     private TextField txtNumberBook;
-
     @FXML
     private TextField txtSeriesBook;
-
     @FXML
     private DatePicker dateIssueBook;
-
     @FXML
     private TextArea whomIssueBook;
-
     @FXML
     private Button savePassport;
-
     @FXML
     private Button saveWorkBook;
-
     @FXML
     private Button saveDivision;
-
     @FXML
     private TextField txtLastName;
-
     @FXML
     private TextField txtFirstName;
-
     @FXML
     private TextField txtPatronymic;
-
     @FXML
     private TextArea txtAddress;
-
     @FXML
     private TextField txtInn;
-
     @FXML
     private TextField txtPathPhoto;
-
     @FXML
     private Button photoPath;
-
     @FXML
     private DatePicker dateEmployment;
-
     @FXML
     private DatePicker birthday;
-
     @FXML
     private ComboBox<Division> comboDivision;
-
     @FXML
     private ComboBox<Passport> comboPassport;
-
     @FXML
     private ComboBox<WorkBook> comboWorkBook;
-
     @FXML
     private Button saveWorker;
     @FXML
@@ -216,7 +188,6 @@ public class ControllerCreateWorker {
         workBooks.clear();
         divisions.clear();
         passports.clear();
-
         initialize();
     }
 }

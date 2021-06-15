@@ -72,4 +72,7 @@ public class Worker {
     public void addPost(PositionType positionType){
         positionTypes.add(positionType);
     }
+    public void addHoliday(Timetable timetable){
+        timetables.add(timetable);
+    }
 }
