@@ -11,7 +11,7 @@ public class Program extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent parent= FXMLLoader.load(getClass().getResource("/view/main.fxml"));
+        Parent parent= FXMLLoader.load(getClass().getResource("/view/login.fxml"));
         stage.setTitle("Авторизация");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/logo.png")));
         stage.setScene(new Scene(parent));

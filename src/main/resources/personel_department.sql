@@ -175,7 +175,7 @@ CREATE TABLE `holiday` (
 
 LOCK TABLES `holiday` WRITE;
 /*!40000 ALTER TABLE `holiday` DISABLE KEYS */;
-INSERT INTO `holiday` VALUES (1,1);
+INSERT INTO `holiday` VALUES (1,1),(2,2);
 /*!40000 ALTER TABLE `holiday` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,7 +197,7 @@ CREATE TABLE `marks` (
   KEY `fk_marks_timesheet_worker1_idx` (`timesheet_worker_id`),
   CONSTRAINT `fk_marks_status1` FOREIGN KEY (`status_id`) REFERENCES `status` (`id`),
   CONSTRAINT `fk_marks_timesheet_worker1` FOREIGN KEY (`timesheet_worker_id`) REFERENCES `timesheet_worker` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +206,7 @@ CREATE TABLE `marks` (
 
 LOCK TABLES `marks` WRITE;
 /*!40000 ALTER TABLE `marks` DISABLE KEYS */;
-INSERT INTO `marks` VALUES (1,1,8,1,1),(2,2,8,1,1),(3,3,8,1,1),(4,4,8,1,1);
+INSERT INTO `marks` VALUES (1,1,8,1,1),(2,2,8,1,1),(3,3,8,1,1),(4,4,8,1,1),(5,5,6,1,1),(6,6,0,4,1),(7,7,0,4,1),(8,8,8,1,1),(9,9,8,1,1),(10,10,8,1,1),(11,11,8,1,1),(12,1,8,1,2),(13,2,8,1,2),(14,3,8,1,2),(15,4,8,1,2),(16,5,8,1,2),(17,6,8,1,2),(18,7,0,4,2),(19,8,0,4,2),(20,9,0,4,2),(21,10,8,1,2),(22,11,8,1,2),(23,12,8,1,2),(24,12,8,1,1),(25,13,8,1,1),(26,14,8,1,1),(27,15,0,4,1),(28,16,8,1,1),(29,17,8,1,1),(30,18,8,1,1),(31,19,0,4,1),(32,20,0,4,1),(33,21,8,1,1),(34,22,8,1,1),(35,23,8,1,1),(36,24,8,1,1),(37,25,0,4,1),(38,26,0,4,1),(39,27,6,1,1),(40,28,8,1,1),(41,29,8,1,1),(42,30,8,1,1),(43,13,8,1,2),(44,14,8,1,2),(45,15,8,1,2),(46,16,8,1,2),(47,17,8,1,2),(48,18,8,1,2),(49,19,0,4,2),(50,20,0,4,2),(51,21,8,1,2),(52,22,8,1,2),(53,23,8,1,2),(54,24,8,1,2),(55,25,8,1,2),(56,26,0,4,2),(57,27,0,4,2),(58,28,8,1,2),(59,29,8,1,2),(60,30,8,1,2);
 /*!40000 ALTER TABLE `marks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,7 +335,7 @@ CREATE TABLE `position_type` (
   `title` varchar(100) NOT NULL,
   `salary` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,7 +344,7 @@ CREATE TABLE `position_type` (
 
 LOCK TABLES `position_type` WRITE;
 /*!40000 ALTER TABLE `position_type` DISABLE KEYS */;
-INSERT INTO `position_type` VALUES (1,'инженер','50000 руб'),(2,'системный администратор','40000 руб'),(3,'технолог-программист','30000 руб');
+INSERT INTO `position_type` VALUES (1,'инженер','50000 руб'),(2,'системный администратор','40000 руб'),(3,'технолог-программист','30000 руб'),(4,'плотник','50000 руб'),(5,'сварщик','50000 руб');
 /*!40000 ALTER TABLE `position_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -387,7 +387,7 @@ CREATE TABLE `role` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -396,6 +396,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,'Инспектор отдела кадров'),(2,'Табельщик'),(3,'Директор');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -531,7 +532,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   KEY `fk_users_role1_idx` (`role_id`),
   CONSTRAINT `fk_users_role1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -540,6 +541,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Васильков','Андрей','vas','1234',1),(2,'Грехов','Илья','grex','2112',2),(3,'Стребков','Сергей','ser','1234S',3);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -621,4 +623,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-25  1:10:57
+-- Dump completed on 2021-06-16  6:53:08

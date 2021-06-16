@@ -29,6 +29,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -108,9 +111,9 @@ public class ControllerMain {
     @FXML
     private TableView<TimesheetWorker> tableTimesheetWorker;
     @FXML
-    private TableColumn<TimesheetWorker, Date> columnDateStart;
+    private TableColumn<TimesheetWorker, String> columnDateStart;
     @FXML
-    private TableColumn<TimesheetWorker, Date> columnDateEnd;
+    private TableColumn<TimesheetWorker, String> columnDateEnd;
     @FXML
     private TableColumn<TimesheetWorker, Integer> columnPaymentCode;
     @FXML
@@ -166,11 +169,11 @@ public class ControllerMain {
     @FXML
     private TableColumn<Timesheet,Integer> columnNumberDoc;
     @FXML
-    private TableColumn<Timesheet, Date> columnDateCompilation;
+    private TableColumn<Timesheet, String> columnDateCompilation;
     @FXML
-    private TableColumn<Timesheet, Date> columnPeriodFrom;
+    private TableColumn<Timesheet, String> columnPeriodFrom;
     @FXML
-    private TableColumn<Timesheet, Date> columnPeriodTo;
+    private TableColumn<Timesheet, String> columnPeriodTo;
     @FXML
     private ComboBox<Timesheet> comboPeriod;
     @FXML
@@ -195,10 +198,10 @@ public class ControllerMain {
     private DatePicker datePeriodEnd;
     @FXML
     private Button saveTimesheet;
-    Timetable timetable=new Timetable();
+
+
     private Worker worker;
     private PositionType positionType;
-    int count=0;
 
     @FXML
     void initialize() throws IOException, DocumentException {
@@ -211,8 +214,11 @@ public class ControllerMain {
             buttonPath.setDisable(true);
             deleteWorker.setDisable(true);
             updateWorker.setDisable(true);
+            saveTimesheet.setDisable(true);
+            saveTimesheetWorker.setDisable(true);
         }else if (ControllerLogin.role.equals("Табельщик")){
             deleteWorker.setDisable(true);
+            openRegUser.setDisable(true);
         }
         getLists();
         getWorker();
@@ -291,6 +297,19 @@ public class ControllerMain {
             }
         });
     }
+    @FXML
+    public void buttonPath(ActionEvent event) throws IOException {
+        FileChooser fileChooser=new FileChooser();
+        fileChooser.setTitle("Выбрать файл");
+        File file=fileChooser.showOpenDialog(new Stage());
+        if (file!=null){
+            worker.setPhotoPath("image/"+file.getName());
+            File source=new File(file.getAbsolutePath());
+            File dest=new File("./src/main/resources/image/"+file.getName());
+            Files.copy(source.toPath(),dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            imagePhoto.setImage(new Image(file.toURI().toURL().openStream()));
+        }
+    }
 
     private void getWorker(){
         SessionFactory factory=new Configuration().configure().buildSessionFactory();
@@ -327,21 +346,15 @@ public class ControllerMain {
             txtLastName.setText(worker.getLastName());
             txtPatronymic.setText(worker.getPatronymic());
             txtAddress.setText(worker.getAddress());
-            txtBirthday.setText(String.valueOf(worker.getBirthday()));
-            txtDateEmployment.setText(String.valueOf(worker.getDateEmployment()));
-            buttonPath.setOnAction(event -> {FileChooser fileChooser=new FileChooser();
-                fileChooser.setTitle("Выбрать файл");
-                File file=fileChooser.showOpenDialog(new Stage());
-                if (!(file==null)){
-                    worker.setPhotoPath(file.getAbsolutePath());
-                }});
+            txtBirthday.setText(worker.getBirthday().toString().substring(0,10));
+            txtDateEmployment.setText(worker.getDateEmployment().toString().substring(0,10));
             imagePhoto.setImage(new Image(worker.getPhotoPath()));
             txtNumbers.setText(String.valueOf(worker.getPassport().getNumber()));
             txtSeries.setText(String.valueOf(worker.getPassport().getSeries()));
             txtDivisionCode.setText(String.valueOf(worker.getPassport().getDevisionCode()));
             txtWhomIssued.setText(worker.getPassport().getWhomIssued());
             txtRegPlace.setText(worker.getPassport().getRegistrationPlace());
-            txtDateIssue.setText(String.valueOf(worker.getPassport().getDateIssue()));
+            txtDateIssue.setText(worker.getPassport().getDateIssue().toString().substring(0,10));
             txtTitlePost.setText(worker.getPositionTypes().iterator().next().getTitle());
             txtSalary.setText(worker.getPositionTypes().iterator().next().getSalary());
         }else{
@@ -375,8 +388,8 @@ public class ControllerMain {
         comboWorkers.valueProperty().addListener((obj,oldValue,newValue)->{
             timesheetWorkers.clear();
             timesheetWorkers.addAll(newValue.getTimesheetWorkers());
-            columnDateStart.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getTimesheet().getDateStart()));
-            columnDateEnd.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getTimesheet().getDateEnd()));
+            columnDateStart.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getTimesheet().getDateStart().toString().substring(0,10)));
+            columnDateEnd.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getTimesheet().getDateEnd().toString().substring(0,10)));
             columnPaymentCode.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getPaymentCode().getCode()));
             columnCorAccount.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getCorrespondentAccount().getCode()));
             tableTimesheetWorker.setItems(timesheetWorkers);
@@ -445,9 +458,9 @@ public class ControllerMain {
             timeSheets.clear();
             timeSheets.addAll(newValue.getTimesheet());
             columnNumberDoc.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getNumberDoc()));
-            columnDateCompilation.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getDateCompilation()));
-            columnPeriodFrom.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getDateStart()));
-            columnPeriodTo.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getDateEnd()));
+            columnDateCompilation.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getDateCompilation().toString().substring(0,10)));
+            columnPeriodFrom.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getDateStart().toString().substring(0,10)));
+            columnPeriodTo.setCellValueFactory(c->new SimpleObjectProperty<>(c.getValue().getDateEnd().toString().substring(0,10)));
             tableTimesheet.setItems(timeSheets);
         });
     }
@@ -618,9 +631,7 @@ public class ControllerMain {
         passportIntegerDao.update(worker.getPassport());
         Date dateIssue=simpleDateFormat.parse(txtDateIssue.getText());
         worker.getPassport().setDateIssue(dateIssue);
-        for (PositionType positionType1:worker.getPositionTypes()) {
-            positionType=positionType1;
-        }
+        positionType=worker.getPositionTypes().iterator().next();
         positionType.setTitle(txtTitlePost.getText());
         positionType.setSalary(txtSalary.getText());
         positionTypeIntegerDao.update(positionType);

@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import ru.sapteh.dao.Dao;
@@ -33,6 +34,9 @@ public class ControllerRegUser {
     private Button buttonClose;
     @FXML
     private Label status;
+    String login;
+
+
     @FXML
     public void initialize(){
         getList();
@@ -54,12 +58,19 @@ public class ControllerRegUser {
         SessionFactory factory=new Configuration().configure().buildSessionFactory();
         Dao<Users,Integer> usersIntegerDao=new UsersService(factory);
         Users users=new Users();
-        users.setFirstName(txtFirstName.getText());
-        users.setLastName(txtLastName.getText());
-        users.setLogin(txtLogin.getText());
-        users.setPassword(txtPassword.getText());
-        users.setRole(comboRole.getValue());
-        usersIntegerDao.create(users);
-        status.setText(String.format("Пользователь %s %s успешно добавлен",users.getFirstName(),users.getLastName()));
+        for (Users users1:usersIntegerDao.readByAll()) {
+            if (users1.getLogin().equals(txtLogin.getText())){
+                login=users1.getLogin();
+            }
+        }
+        if (!login.equals(txtLogin.getText())){
+            users.setFirstName(txtFirstName.getText());
+            users.setLastName(txtLastName.getText());
+            users.setLogin(txtLogin.getText());
+            users.setPassword(txtPassword.getText());
+            users.setRole(comboRole.getValue());
+            usersIntegerDao.create(users);
+            status.setText(String.format("Пользователь %s %s успешно добавлен",users.getFirstName(),users.getLastName()));
+        }else status.setText("Логин занят");
     }
 }

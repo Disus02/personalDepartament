@@ -28,6 +28,6 @@ public class Timesheet {
 
     @Override
     public String toString() {
-        return dateStart + "-" +dateEnd;
+        return dateStart.toString().substring(0,10) + "-" + dateEnd.toString().substring(0,10);
     }
 }

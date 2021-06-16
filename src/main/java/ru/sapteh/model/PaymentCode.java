@@ -20,4 +20,8 @@ public class PaymentCode {
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "paymentCode")
     private Set<TimesheetWorker> timesheetWorkers;
 
+    @Override
+    public String toString() {
+        return String.valueOf(code);
+    }
 }

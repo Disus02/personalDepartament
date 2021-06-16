@@ -2,14 +2,22 @@ package ru.sapteh.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import ru.sapteh.dao.Dao;
 import ru.sapteh.model.*;
 import ru.sapteh.service.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -82,6 +90,7 @@ public class ControllerCreateWorker {
 
     @FXML
     void initialize(){
+        txtPathPhoto.setDisable(true);
         getValueComboBox();
         savePassport.setOnAction(event -> {
             try {
@@ -110,6 +119,18 @@ public class ControllerCreateWorker {
                 e.printStackTrace();
             }
         });
+    }
+    @FXML
+    public void photoPath(ActionEvent event) throws IOException {
+        FileChooser fileChooser=new FileChooser();
+        fileChooser.setTitle("Выбрать файл");
+        File file=fileChooser.showOpenDialog(new Stage());
+        if (file!=null){
+            txtPathPhoto.setText("image/"+file.getName());
+            File source=new File(file.getAbsolutePath());
+            File dest=new File("./src/main/resources/image/"+file.getName());
+            Files.copy(source.toPath(),dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
     }
     private void getValueComboBox(){
         SessionFactory factory=new Configuration().configure().buildSessionFactory();

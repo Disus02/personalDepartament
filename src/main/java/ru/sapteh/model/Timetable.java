@@ -24,7 +24,7 @@ public class Timetable {
 
     @Override
     public String toString() {
-        return String.format("%s по %s", dateStart,dateEnd);
+        return String.format("%s по %s", dateStart.toString().substring(0,10),dateEnd.toString().substring(0,10));
     }
 
 }

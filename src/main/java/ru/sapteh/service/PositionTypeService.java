@@ -28,7 +28,7 @@ public class PositionTypeService implements Dao<PositionType,Integer> {
     public void update(PositionType positionType) {
         try(Session session= factory.openSession()) {
             session.beginTransaction();
-            session.save(positionType);
+            session.update(positionType);
             session.getTransaction().commit();
         }
     }
@@ -37,7 +37,7 @@ public class PositionTypeService implements Dao<PositionType,Integer> {
     public void delete(PositionType positionType) {
         try(Session session= factory.openSession()) {
             session.beginTransaction();
-            session.save(positionType);
+            session.delete(positionType);
             session.getTransaction().commit();
         }
     }

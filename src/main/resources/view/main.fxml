@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.InnerShadow?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="480.0" prefWidth="653.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.sapteh.controller.ControllerMain">
    <children>
@@ -76,7 +67,7 @@
                         <TextField fx:id="txtDateEmployment" layoutX="444.0" layoutY="257.0" style="-fx-background-radius: 30; -fx-border-color: #AA96DA; -fx-border-radius: 30;" />
                         <TextArea fx:id="txtAddress" layoutX="444.0" layoutY="291.0" prefHeight="100.0" prefWidth="168.0" style="-fx-background-color: #AA96DA; -fx-border-color: #AA96DA;" />
                         <ImageView fx:id="imagePhoto" fitHeight="187.0" fitWidth="174.0" layoutX="441.0" layoutY="409.0" pickOnBounds="true" preserveRatio="true" />
-                        <Button fx:id="buttonPath" layoutX="348.0" layoutY="448.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="90.0" style="-fx-background-color: #AA96DA; -fx-background-radius: 100; -fx-border-color: #FCBAD3; -fx-border-radius: 100; -fx-border-width: 3;" text="Выбрать">
+                        <Button fx:id="buttonPath" layoutX="348.0" layoutY="448.0" mnemonicParsing="false" onAction="#buttonPath" prefHeight="90.0" prefWidth="90.0" style="-fx-background-color: #AA96DA; -fx-background-radius: 100; -fx-border-color: #FCBAD3; -fx-border-radius: 100; -fx-border-width: 3;" text="Выбрать">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>

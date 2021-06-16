@@ -2,6 +2,7 @@ package ru.sapteh.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -42,15 +43,10 @@ public class ControllerLogin {
         buttonExit.setOnAction(event -> {
             System.exit(0);
         });
-        buttonOpen.setOnAction(event -> {
-            try {
-                login();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+
     }
-    private void login() throws IOException {
+    @FXML
+    public void openMain(ActionEvent event) throws IOException {
         getUsers();
         if (txtLogin.getText().isEmpty()&&txtPassword.getText().isEmpty()) {
             status.setText("Логин и пароль не заполнены");
@@ -71,9 +67,34 @@ public class ControllerLogin {
                     Scene scene=new Scene(parent);
                     stage.setScene(scene);
                     stage.show();
+                    break;
                 }else status.setText("Пароля и логина не существует");
             }
     }
+//    private void login() throws IOException {
+//        getUsers();
+//        if (txtLogin.getText().isEmpty()&&txtPassword.getText().isEmpty()) {
+//            status.setText("Логин и пароль не заполнены");
+//        }else if (txtLogin.getText().isEmpty()){
+//            status.setText("Логин пустой");
+//        }else if (txtPassword.getText().isEmpty()){
+//            status.setText("Пароль пустой");
+//        } else
+//            for (Users users:users) {
+//                if (users.getLogin().equals(txtLogin.getText())&&users.getPassword().equals(txtPassword.getText())){
+//                    status.setText(String.format("Добро пожаловать %s %s",users.getFirstName(),users.getLastName()));
+//                    role=users.getRole().getTitle();
+//                    buttonOpen.getScene().getWindow().hide();
+//                    Parent parent= FXMLLoader.load(getClass().getResource("/view/main.fxml"));
+//                    Stage stage=new Stage();
+//                    stage.setTitle("Главная страница");
+//                    stage.getIcons().add(new Image(getClass().getResourceAsStream("/logo.png")));
+//                    Scene scene=new Scene(parent);
+//                    stage.setScene(scene);
+//                    stage.show();
+//                }else status.setText("Пароля и логина не существует");
+//            }
+//    }
     private void getUsers(){
         SessionFactory factory=new Configuration().configure().buildSessionFactory();
         Dao<Users,Integer> usersIntegerDao=new UsersService(factory);
